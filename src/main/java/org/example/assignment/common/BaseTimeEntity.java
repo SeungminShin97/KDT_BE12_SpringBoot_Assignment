@@ -1,4 +1,4 @@
-package org.example.assignment.global;
+package org.example.assignment.common;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
