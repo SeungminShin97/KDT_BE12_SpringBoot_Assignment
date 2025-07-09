@@ -1,4 +1,4 @@
-package org.example.assignment.domain.enums;
+package org.example.assignment.domain.enums.user;
 
 public enum Grade {
     BRONZE,

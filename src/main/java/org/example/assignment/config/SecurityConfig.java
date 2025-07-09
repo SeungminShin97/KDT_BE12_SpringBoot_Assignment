@@ -1,8 +1,7 @@
 package org.example.assignment.config;
 
 import lombok.RequiredArgsConstructor;
-import org.example.assignment.config.handler.CustomLoginSuccessHandler;
-import org.example.assignment.domain.enums.Role;
+import org.example.assignment.domain.enums.user.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
