@@ -1,8 +1,7 @@
 package org.example.assignment.domain.user;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.assignment.domain.address.Address;
 import org.example.assignment.domain.enums.user.Gender;
 import org.example.assignment.domain.enums.user.Grade;
@@ -21,6 +20,8 @@ import java.util.Set;
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User extends BaseTimeEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +31,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     private String email;
 
     @Column
-    private boolean isDeleted;
+    private Boolean isDeleted = false;
 
     @Column(nullable = false)
     private String password;
@@ -56,9 +57,10 @@ public class User extends BaseTimeEntity implements UserDetails {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    private List<Address>  addresses;
+    private List<Address> addresses;
 
     // 기본 배송지
+    @Setter
     @OneToOne
     @JoinColumn(name = "base_address_id")
     private Address baseAddress;
@@ -74,8 +76,8 @@ public class User extends BaseTimeEntity implements UserDetails {
     private Grade grade = Grade.BRONZE;
 
     // 계정 활성화 여부
-    @Column(nullable = false)
-    private boolean isEnabled;
+    @Column
+    private boolean isEnabled = false;
 
     // 유저 권한
     @ElementCollection(fetch = FetchType.EAGER)
@@ -127,5 +129,13 @@ public class User extends BaseTimeEntity implements UserDetails {
      */
     public void updateLastLogin() {
         this.lastLogin = LocalDateTime.now();
+    }
+
+    /**
+     * 주소 리스트에 주소를 추가하는 메서드입니다.
+     * @param address 추가할 주소 정보
+     */
+    public void addAddress(Address address) {
+        addresses.add(address);
     }
 }
