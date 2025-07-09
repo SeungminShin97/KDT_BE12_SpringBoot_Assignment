@@ -120,4 +120,12 @@ public class User extends BaseTimeEntity implements UserDetails {
     public boolean isEnabled() {
         return this.isEnabled && !this.isDeleted;
     }
+
+    /**
+     * 마지막 로그인 시간을 업데이트 합니다. <br>
+     * LocalDateTime.now()
+     */
+    public void updateLastLogin() {
+        this.lastLogin = LocalDateTime.now();
+    }
 }
