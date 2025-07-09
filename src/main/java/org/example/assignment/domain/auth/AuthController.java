@@ -5,6 +5,7 @@ import org.example.assignment.domain.enums.login.ErrorType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -22,9 +23,13 @@ public class AuthController {
             model.addAttribute("errorMsg", "아이디 또는 비밀번호가 일치하지 않습니다.");
         return "auth/login";
     }
+
     @GetMapping("/register")
     public String register(){
         return "auth/register";
     }
+
+//    @PostMapping("/register")
+
 
 }
