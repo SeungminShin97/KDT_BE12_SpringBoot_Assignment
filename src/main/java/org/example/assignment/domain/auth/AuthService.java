@@ -1,4 +1,4 @@
-package org.example.assignment.domain.login;
+package org.example.assignment.domain.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.example.assignment.domain.user.User;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class LoginService implements UserDetailsService {
+public class AuthService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Transactional
