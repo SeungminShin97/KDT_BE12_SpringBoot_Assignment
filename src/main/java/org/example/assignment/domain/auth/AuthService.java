@@ -1,8 +1,11 @@
 package org.example.assignment.domain.auth;
 
 import lombok.RequiredArgsConstructor;
+import org.example.assignment.domain.address.Address;
+import org.example.assignment.domain.address.AddressRepository;
 import org.example.assignment.domain.user.User;
 import org.example.assignment.domain.user.UserRepository;
+import org.example.assignment.domain.user.dto.UserRegistrationDto;
 import org.example.assignment.domain.user.exception.UserDisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,13 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService {
     private final UserRepository userRepository;
+    private final AddressRepository addressRepository;
 
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String email) {
         User user = userRepository.findUserByEmailAndDeletedFalse(email)
                 .orElseThrow(() -> new UsernameNotFoundException("회원 정보가 없습니다."));
-        if(user.isDeleted())
+        if(user.getIsDeleted())
             throw new UsernameNotFoundException("회원 정보가 없습니다.");
         if(user.isEnabled())
             throw new UserDisabledException("비활성화 된 계정입니다. 문의 부탁드립니다.");
@@ -28,5 +32,21 @@ public class AuthService implements UserDetailsService {
         // 로그인 성공 -> 마지막 로그인 시간 업데이트
         user.updateLastLogin();
         return user;
+    }
+
+    // TODO: 예외처리
+    @Transactional
+    public void register(UserRegistrationDto userRegistrationDto) {
+        // 유저 저장
+        User user = userRegistrationDto.toEntity();
+        userRepository.save(user);
+
+        // 배송지 정보 저장
+        if(userRegistrationDto.getAddress() != null) {
+            Address address = userRegistrationDto.getAddress().toEntity(user);
+            addressRepository.save(address);
+            user.setBaseAddress(address);
+            user.addAddress(address);
+        }
     }
 }
