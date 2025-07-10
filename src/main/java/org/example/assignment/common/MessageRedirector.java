@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 public interface MessageRedirector {
     default String messageRedirect(Model model, MessageRedirectDto messageRedirectDto) {
         model.addAttribute("message", messageRedirectDto.message());
-        return messageRedirectDto.redirectUrl();
+        model.addAttribute("redirectUrl", messageRedirectDto.redirectUrl());
+        return "messageRedirect";
     }
 }
