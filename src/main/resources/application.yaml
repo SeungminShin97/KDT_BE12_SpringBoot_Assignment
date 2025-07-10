@@ -22,3 +22,16 @@ logging:
   level:
     root: INFO
     org.example.assignment: DEBUG
+
+# google smtp 설정
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: rnsdlsfarm1
+    password: vuujkwlxnuxsvyxy
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
