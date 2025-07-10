@@ -1,26 +1,22 @@
-package org.example.assignment.domain.user;
+package org.example.assignment.controller.api;
 
 import lombok.RequiredArgsConstructor;
 import org.example.assignment.common.dto.ApiResponseDto;
 import org.example.assignment.common.exception.DatabaseException;
+import org.example.assignment.domain.user.UserService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
-public class UserController {
+public class UserApiController {
     private final UserService userService;
 
     @GetMapping("/email")
-    @ResponseBody
     public ApiResponseDto<Boolean> duplicateEmail(@RequestParam String email){
         try{
             Boolean isAvailable = userService.duplicateEmail(email);

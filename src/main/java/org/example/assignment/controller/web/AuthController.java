@@ -1,4 +1,4 @@
-package org.example.assignment.domain.auth;
+package org.example.assignment.controller.web;
 
 import lombok.RequiredArgsConstructor;
 import org.example.assignment.common.MessageRedirector;
@@ -45,7 +45,6 @@ public class AuthController implements MessageRedirector {
         return "auth/register";
     }
 
-    //TODO: 예외처리
     /**
      * 회원가입 처리 메서드입니다. <br>
      * 회원가입 성공 시 홈페이지를 반환합니다. <br>
