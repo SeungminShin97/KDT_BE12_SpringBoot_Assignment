@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -50,7 +51,7 @@ public class AuthController implements MessageRedirector {
      * @return 홈페이지 반환
      */
     @PostMapping("/register")
-    public String processRegistration(UserRegistrationDto registrationDto, Model model){
+    public String processRegistration(@RequestBody UserRegistrationDto registrationDto, Model model){
         authService.register(registrationDto);
         return messageRedirect(model,new MessageRedirectDto("/", "회원가입 되었습니다."));
     }
