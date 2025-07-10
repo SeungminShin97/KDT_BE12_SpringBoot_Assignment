@@ -15,7 +15,6 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-    // TODO: 예외처리
     @Transactional
     public void register(UserRegistrationDto userRegistrationDto) {
         // 비밀번호 해싱

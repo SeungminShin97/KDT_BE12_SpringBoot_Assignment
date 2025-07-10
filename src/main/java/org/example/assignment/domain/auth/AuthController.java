@@ -6,6 +6,7 @@ import org.example.assignment.common.dto.MessageRedirectDto;
 import org.example.assignment.domain.enums.login.ErrorType;
 import org.example.assignment.domain.user.UserService;
 import org.example.assignment.domain.user.dto.UserRegistrationDto;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,14 +48,23 @@ public class AuthController implements MessageRedirector {
     //TODO: 예외처리
     /**
      * 회원가입 처리 메서드입니다. <br>
-     * 회원가입 성공 시 홈페이지를 반환합니다.
+     * 회원가입 성공 시 홈페이지를 반환합니다. <br>
+     * 회원가입 실패 시 에러 메세지 출력 후 회원가입 페이지로 리다이렉트 합니다.
      * @param registrationDto 회원정보
      * @return 홈페이지 반환
      */
     @PostMapping("/register")
     public String processRegistration(@RequestBody UserRegistrationDto registrationDto, Model model){
-        userService.register(registrationDto);
-        return messageRedirect(model,new MessageRedirectDto("/", "회원가입 되었습니다."));
+        try {
+            userService.register(registrationDto);
+        } catch (DataAccessException e) {
+            return messageRedirect(model, MessageRedirectDto.builder().
+                    redirectUrl("/register").
+                    message("회원가입에 실패했습니다. 다시 시도해주세요").build());
+        }
+        return messageRedirect(model,MessageRedirectDto.builder()
+                .redirectUrl("/")
+                .message("회원가입 되었습니다.").build());
     }
 
 }
