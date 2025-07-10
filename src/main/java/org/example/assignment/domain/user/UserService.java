@@ -39,4 +39,13 @@ public class UserService {
         // 유저 저장
         userRepository.save(user);
     }
+
+    /**
+     * 이메일 중복 검사 메서드 입니다. <br>
+     * @param email 중복 검사 할 email
+     * @return 중복 되는 경우 true를 반환합니다.
+     */
+    public Boolean duplicateEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }
