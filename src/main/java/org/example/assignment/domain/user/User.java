@@ -12,16 +12,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-@Entity
+@Entity(name = "users")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class User extends BaseTimeEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,7 +53,7 @@ public class User extends BaseTimeEntity implements UserDetails {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    private List<Address> addresses;
+    private List<Address> addresses = new ArrayList<>();
 
     // 유저 등급
     @Column(nullable = false)
@@ -83,6 +79,15 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Column
     private LocalDateTime deletedAt;
 
+    @Builder
+    public User(String email, String password, String name, Gender gender, LocalDate birthDate, String tel) {
+        this.email      = email;
+        this.password   = password;
+        this.name       = name;
+        this.gender     = gender;
+        this.birthDate  = birthDate;
+        this.tel        = tel;
+    }
 
 
 
@@ -126,5 +131,13 @@ public class User extends BaseTimeEntity implements UserDetails {
      */
     public void addAddress(Address address) {
         addresses.add(address);
+    }
+
+    /**
+     * 유저 권한을 추가하는 메서드 입니다.
+     * @param role 추가할 유저 권한
+     */
+    public void addRole(Role role) {
+        this.role.add(role);
     }
 }
