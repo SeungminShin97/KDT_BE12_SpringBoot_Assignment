@@ -1,5 +1,6 @@
 package org.example.assignment.controller.web;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.example.assignment.common.MessageRedirector;
 import org.example.assignment.common.dto.MessageRedirectDto;
@@ -53,15 +54,15 @@ public class AuthController implements MessageRedirector {
      * @return 홈페이지 반환
      */
     @PostMapping("/register")
-    public String processRegistration(@RequestBody UserRegistrationDto registrationDto, Model model){
+    public String processRegistration(@RequestBody UserRegistrationDto registrationDto, HttpServletRequest request, Model model){
         try {
             userService.createUser(registrationDto);
         } catch (DataAccessException e) {
-            return messageRedirect(model, MessageRedirectDto.builder().
+            return messageRedirect(request, model, MessageRedirectDto.builder().
                     redirectUrl("/register").
                     message("회원가입에 실패했습니다. 다시 시도해주세요").build());
         }
-        return messageRedirect(model,MessageRedirectDto.builder()
+        return messageRedirect(request, model,MessageRedirectDto.builder()
                 .redirectUrl("/")
                 .message("회원가입 되었습니다.").build());
     }
