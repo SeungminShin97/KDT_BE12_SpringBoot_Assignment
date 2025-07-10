@@ -56,7 +56,7 @@ public class AuthController implements MessageRedirector {
     @PostMapping("/register")
     public String processRegistration(@RequestBody UserRegistrationDto registrationDto, Model model){
         try {
-            userService.register(registrationDto);
+            userService.createUser(registrationDto);
         } catch (DataAccessException e) {
             return messageRedirect(model, MessageRedirectDto.builder().
                     redirectUrl("/register").

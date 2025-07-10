@@ -21,7 +21,7 @@ public class UserService {
      * @param userRegistrationDto
      */
     @Transactional
-    public void register(UserRegistrationDto userRegistrationDto) {
+    public void createUser(UserRegistrationDto userRegistrationDto) {
         // 비밀번호 해싱
         String hashedPW = bCryptPasswordEncoder.encode(userRegistrationDto.getPassword());
         userRegistrationDto.setPassword(hashedPW);
