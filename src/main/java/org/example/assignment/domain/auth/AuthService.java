@@ -3,6 +3,7 @@ package org.example.assignment.domain.auth;
 import lombok.RequiredArgsConstructor;
 import org.example.assignment.domain.address.Address;
 import org.example.assignment.domain.address.AddressRepository;
+import org.example.assignment.domain.enums.user.Role;
 import org.example.assignment.domain.user.User;
 import org.example.assignment.domain.user.UserRepository;
 import org.example.assignment.domain.user.dto.UserRegistrationDto;
@@ -10,6 +11,7 @@ import org.example.assignment.domain.user.exception.UserDisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService implements UserDetailsService {
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String email) {
-        User user = userRepository.findUserByEmailAndDeletedFalse(email)
+        User user = userRepository.findUserByEmailAndIsDeletedFalse(email)
                 .orElseThrow(() -> new UsernameNotFoundException("회원 정보가 없습니다."));
         if(user.getIsDeleted())
             throw new UsernameNotFoundException("회원 정보가 없습니다.");
@@ -37,15 +40,21 @@ public class AuthService implements UserDetailsService {
     // TODO: 예외처리
     @Transactional
     public void register(UserRegistrationDto userRegistrationDto) {
-        // 유저 저장
+        // 비밀번호 해싱
+        String password = bCryptPasswordEncoder.encode(userRegistrationDto.getPassword());
+        userRegistrationDto.setPassword(password);
+
         User user = userRegistrationDto.toEntity();
+        // 유저 권한 주입, 회원가입 시에는 유저 권한만 가능
+        user.addRole(Role.ROLE_USER);
+        // 유저 저장
         userRepository.save(user);
 
         // 배송지 정보 저장
         if(userRegistrationDto.getAddress() != null) {
             Address address = userRegistrationDto.getAddress().toEntity(user);
+
             addressRepository.save(address);
-            user.setBaseAddress(address);
             user.addAddress(address);
         }
     }
