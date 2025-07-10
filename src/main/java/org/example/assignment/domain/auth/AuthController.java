@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.assignment.common.MessageRedirector;
 import org.example.assignment.common.dto.MessageRedirectDto;
 import org.example.assignment.domain.enums.login.ErrorType;
+import org.example.assignment.domain.user.UserService;
 import org.example.assignment.domain.user.dto.UserRegistrationDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequiredArgsConstructor
 public class AuthController implements MessageRedirector {
-    private final AuthService authService;
+    private final UserService  userService;
 
     /**
      * 로그인 페이지를 반환하는 API입니다.
@@ -52,7 +53,7 @@ public class AuthController implements MessageRedirector {
      */
     @PostMapping("/register")
     public String processRegistration(@RequestBody UserRegistrationDto registrationDto, Model model){
-        authService.register(registrationDto);
+        userService.register(registrationDto);
         return messageRedirect(model,new MessageRedirectDto("/", "회원가입 되었습니다."));
     }
 
