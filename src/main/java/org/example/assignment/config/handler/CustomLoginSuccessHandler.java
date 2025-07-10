@@ -21,6 +21,16 @@ import java.time.LocalDateTime;
 public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final RedirectStrategy redirect = new DefaultRedirectStrategy();
 
+    /**
+     * 로그인 성공시 처리 핸들러 입니다. <br>
+     * 홈페이지 ("/")를 반환합니다.
+     * @param request the request which caused the successful authentication
+     * @param response the response
+     * @param authentication the <tt>Authentication</tt> object which was created during
+     * the authentication process.
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,

@@ -14,7 +14,12 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
+    /**
+     * 회원가입 메서드 입니다. <br>
+     * 사용자의 정보를 받아서 user, address, user_roles 엔티티를 저장합니다. <br>
+     * 비밀번호 해싱, 유저 기본 권한(ROLE_USER)을 주입합니다.
+     * @param userRegistrationDto
+     */
     @Transactional
     public void register(UserRegistrationDto userRegistrationDto) {
         // 비밀번호 해싱
