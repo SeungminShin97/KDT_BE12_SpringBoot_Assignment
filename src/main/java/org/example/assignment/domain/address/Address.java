@@ -21,6 +21,14 @@ public class Address {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    // 기본 배송지 여부
+    @Column
+    private Boolean isBase = false;
+
+    // 최근 배송지 여부
+    @Column
+    private Boolean isLast = false;
+
     // 주소 별칭
     @Column
     private String name;
@@ -36,4 +44,21 @@ public class Address {
     // 상세 주소
     @Column(nullable = false)
     private String detailAddress;
+
+    public void markAsBase() {
+        isBase = true;
+    }
+
+    public void unmarkAsBase() {
+        isBase = false;
+    }
+
+    public void markAsLast() {
+        isLast = true;
+    }
+
+    public void unmarkAsLast() {
+        isLast = false;
+    }
+
 }

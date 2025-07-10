@@ -59,17 +59,6 @@ public class User extends BaseTimeEntity implements UserDetails {
     )
     private List<Address> addresses;
 
-    // 기본 배송지
-    @Setter
-    @OneToOne
-    @JoinColumn(name = "base_address_id")
-    private Address baseAddress;
-
-    // 최근 배송지
-    @OneToOne
-    @JoinColumn(name = "last_used_address")
-    private Address lastUsedAddress;
-
     // 유저 등급
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
