@@ -1,0 +1,25 @@
+<header th:fragment="site-header">
+	<div class="container">
+		<h1 class="logo"><a th:href="@{/static}">Aladin 중고서점</a></h1>
+		<nav class="gnb">
+			<ul>
+				<li><a th:href="@{/category/new}">새상품</a></li>
+				<li><a th:href="@{/category/bestseller}">베스트셀러</a></li>
+				<li><a th:href="@{/category/grade}">등급별</a></li>
+				<li><a th:href="@{/sell}">판매하기</a></li>
+			</ul>
+		</nav>
+		<div class="user-area">
+      <span th:if="${isLoggedIn}">
+        <a th:href="@{/mypage}" th:text="${userName} + '님'">사용자</a>
+      </span>
+			<a th:if="${!isLoggedIn}" th:href="@{/login}">로그인</a>
+		</div>
+		<div class="search-bar">
+			<form th:action="@{/search}" method="get">
+				<input type="text" name="q" placeholder="책 제목, 저자, ISBN 검색"/>
+				<button type="submit">검색</button>
+			</form>
+		</div>
+	</div>
+</header>
