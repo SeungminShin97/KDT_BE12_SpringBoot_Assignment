@@ -7,6 +7,7 @@ import org.example.assignment.domain.enums.user.Gender;
 import org.example.assignment.domain.enums.user.Grade;
 import org.example.assignment.domain.enums.user.Role;
 import org.example.assignment.common.BaseTimeEntity;
+import org.example.assignment.domain.user.dto.UserBaseDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -139,5 +140,11 @@ public class User extends BaseTimeEntity implements UserDetails {
      */
     public void addRole(Role role) {
         this.role.add(role);
+    }
+
+    public UserBaseDto toUserBaseDto() {
+        return UserBaseDto.builder()
+                .email(email)
+                .name(name).build();
     }
 }

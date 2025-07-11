@@ -1,6 +1,7 @@
 package org.example.assignment.domain.user.dto;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.example.assignment.domain.address.dto.AddressRequestDto;
 import org.example.assignment.domain.enums.user.Gender;
 import org.example.assignment.domain.user.User;
@@ -9,12 +10,11 @@ import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Data
-public class UserDto {
-    private String email;
+@SuperBuilder
+@Getter
+public class UserRequestDto extends UserBaseDto {
+    @Setter
     private String password;
-    private String name;
     private Gender gender;
     private LocalDate birthDate;
     private String tel;
@@ -22,9 +22,9 @@ public class UserDto {
 
     public User toEntity() {
         return User.builder()
-                .email(email)
-                .password(password)
-                .name(name)
+                .email(super.getEmail())
+                .password(getPassword())
+                .name(super.getName())
                 .gender(gender)
                 .birthDate(birthDate)
                 .tel(tel).build();
