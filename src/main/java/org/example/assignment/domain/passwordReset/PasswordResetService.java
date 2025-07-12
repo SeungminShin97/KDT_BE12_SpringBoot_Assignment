@@ -54,4 +54,19 @@ public class PasswordResetService {
         tokenDto.setUserBaseDto(user.toUserBaseDto());
         return tokenDto;
     }
+
+    /**
+     * 사용자의 기존 비밀번호 리셋 토큰들을 만료시키는 메서드 입니다.
+     * @param userBaseDto 사용자 정보
+     */
+    @Transactional
+    public void expirePreviousTokens(UserBaseDto  userBaseDto) {
+        // 사용자의 만료되지 않은 토큰 조회
+        List<PasswordResetToken> tokens =
+                passwordResetRepository.findByUserIdAndStatus(userBaseDto.getId(), PasswordResetTokenStatus.ISSUED);
+
+        // 토큰 만료 처리
+        if(!tokens.isEmpty())
+            tokens.forEach(PasswordResetToken::expire);
+    }
 }
