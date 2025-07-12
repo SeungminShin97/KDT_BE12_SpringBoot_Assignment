@@ -22,9 +22,9 @@ public class UserRequestDto extends UserBaseDto {
 
     public User toEntity() {
         return User.builder()
-                .email(super.getEmail())
-                .password(getPassword())
-                .name(super.getName())
+                .email(email)
+                .password(password)
+                .name(name)
                 .gender(gender)
                 .birthDate(birthDate)
                 .tel(tel).build();
