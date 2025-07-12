@@ -45,7 +45,7 @@ public class UserService {
      * @param email 중복 검사 할 email
      * @return 중복 되는 경우 true를 반환합니다.
      */
-    public Boolean duplicateEmail(String email) {
+    public Boolean isEmailRegistered(String email) {
         return userRepository.existsByEmail(email);
     }
 }

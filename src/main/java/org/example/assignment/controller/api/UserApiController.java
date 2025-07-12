@@ -24,7 +24,7 @@ public class UserApiController {
     @GetMapping("/email-exists")
     public ApiResponseDto<Boolean> isEmailAvailable(@RequestParam String email){
         try{
-            Boolean isAvailable = userService.duplicateEmail(email);
+            Boolean isAvailable = userService.isEmailRegistered(email);
             return ApiResponseDto.<Boolean>builder()
                     .data(isAvailable)
                     .code(HttpStatus.OK.value())
