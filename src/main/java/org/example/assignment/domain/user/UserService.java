@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -38,6 +40,11 @@ public class UserService {
 
         // 유저 저장
         userRepository.save(user);
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmailAndIsDeletedFalse(email)
+                .orElseThrow(() ->  new NoSuchElementException("회원을 찾을 수 없습니다."));
     }
 
     /**
