@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController implements MessageRedirector {
     private final UserService  userService;
@@ -64,4 +65,27 @@ public class AuthController implements MessageRedirector {
                 .message("회원가입 되었습니다.").build());
     }
 
+    /**
+     * 비밀번호 찾기 페이지로 이동합니다. <br>
+     */
+    @GetMapping("/password")
+    public String showFindPasswordFrom() {
+        return "auth/findPassword";
+    }
+
+    /**
+     * 비밀번호 찾기 페이지로 이동합니다. <br>
+     * 세션 Id를 가지고 있으면 바로 인증 코드를 입력할 수 있습니다. <br>
+     * {@link org.example.assignment.domain.mail.MailService} passwordResetMailSend 메서드 참고
+     * @param sessionId 비밀번호 인증 URL
+     * @return
+     */
+    @GetMapping("/password")
+    public String showFindPasswordFromWithSessionId(@RequestParam(value = "sessionId") String sessionId, Model model) {
+        // sessionId로 인증 토큰 가져오기
+
+        // model에 토큰 추가
+
+        return "auth/findPassword";
+    }
 }
