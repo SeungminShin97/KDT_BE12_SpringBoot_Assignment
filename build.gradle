@@ -33,6 +33,7 @@ dependencies {
 	implementation("com.querydsl:querydsl-jpa:5.1.0")
 	// https://mvnrepository.com/artifact/com.querydsl/querydsl-apt
 	implementation("com.querydsl:querydsl-apt:5.1.0")
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

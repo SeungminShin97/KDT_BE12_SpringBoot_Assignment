@@ -11,15 +11,20 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserApiController {
     private final UserService userService;
 
-    @GetMapping("/email")
-    public ApiResponseDto<Boolean> duplicateEmail(@RequestParam String email){
+    /**
+     * 이메일 중복 검사
+     * @param email 확인할 이메일
+     * @return data: true(사용가능), false(중복)
+     */
+    @GetMapping("/email-exists")
+    public ApiResponseDto<Boolean> isEmailAvailable(@RequestParam String email){
         try{
-            Boolean isAvailable = userService.duplicateEmail(email);
+            Boolean isAvailable = userService.isEmailRegistered(email);
             return ApiResponseDto.<Boolean>builder()
                     .data(isAvailable)
                     .code(HttpStatus.OK.value())
